@@ -16,6 +16,7 @@ public class RoleDaoImp implements RoleDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+
     public Set<Role> findRoles(List<Long> roles) {
         TypedQuery<Role> q = entityManager.createQuery("select distinct r from Role r join fetch r.users u where r.id in :role", Role.class);
         q.setParameter("role", roles);
@@ -25,5 +26,4 @@ public class RoleDaoImp implements RoleDao {
     public List<Role> getAllRoles() {
         return entityManager.createQuery("select distinct r from Role r left join fetch r.users", Role.class).getResultList();
     }
-
 }

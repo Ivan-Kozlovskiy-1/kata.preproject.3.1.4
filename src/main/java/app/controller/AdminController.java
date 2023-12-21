@@ -1,7 +1,7 @@
 package app.controller;
 
-import app.model.User;
 import app.service.RoleService;
+import app.model.User;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +18,13 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AdminController (UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @GetMapping()
@@ -38,19 +38,19 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    public String deleteUser (@PathVariable("id") long id) {
         userService.delete(id);
         return "redirect:/admin";
     }
 
     @PostMapping("/edit")
-    public String update(@ModelAttribute("user") User user, @RequestParam("listRoles") ArrayList<Long> roles) {
+    public String update (@ModelAttribute("user") User user, @RequestParam("listRoles") ArrayList<Long> roles) {
         userService.change(user, roleService.findRoles(roles));
         return "redirect:/admin";
     }
 
     @PostMapping("/new")
-    public String addUser(User user, @RequestParam("listRoles") ArrayList<Long> roles) {
+    public String addUser (User user, @RequestParam("listRoles") ArrayList<Long> roles) {
         userService.add(user, roleService.findRoles(roles));
         return "redirect:/admin";
     }

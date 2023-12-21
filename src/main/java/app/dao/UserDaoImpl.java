@@ -16,15 +16,9 @@ public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserDaoImpl(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public void add(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
@@ -55,5 +49,4 @@ public class UserDaoImpl implements UserDao {
         query.setParameter("email", email);
         return (User) query.getSingleResult();
     }
-
 }
